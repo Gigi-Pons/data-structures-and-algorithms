@@ -1,0 +1,78 @@
+#include<iostream>
+#include <vector>
+#include <fstream>
+
+using namespace std;
+
+int majorityElement(vector<int>& nums);
+
+int main()
+{
+    ifstream file;
+    vector<int> nums;
+    int inputString;
+    file.open("majorityEle.txt");
+    while(file>>inputString)
+    {
+        nums.push_back(inputString);
+    }
+    file.close();
+
+    int result = majorityElement(nums);
+    if(result == -1)
+        cout << "\n Majority element does not exist";
+    else
+        cout << "The majority element is: " << result << endl;
+
+    return 0;
+}
+
+//Takes in a vector and does a linear search while counting the occurrences
+//of every value in the vector.  It starts from the first index and keeps
+//a count, if the nextt value is the same, it increases the count.  If not,
+//it decreases the count.  If the count ever gets to zero, it picks a different
+//value to represent the majority element, starting with a count of 1.
+
+int majorityElement(vector<int>& nums)
+{
+    int candidate = nums[0];
+    int n = nums.size();
+    int count = 1;
+
+    //Loop compares candidate value with the value at the next index
+    for(int i=1; i<n; i++)
+    {
+        if(nums[i] == candidate)
+        {
+            count++;
+        }
+        else 
+        {
+            count--;
+            //check if count is zero, if it is make value at current index
+            //the new candidate with a count of 1;
+            if(count == 0)
+            {
+                candidate = nums[i];
+                count = 1;
+            }
+        }
+    }
+    return candidate;
+
+    //check if majority element is in fact the majority element by
+    //making this calculation = (count>n/2)
+    int count2 = 0;
+    for(int i=0; i<n; i++)
+    {
+        if(nums[i] == candidate)
+        {
+            count2++;
+        }
+    }
+
+    if(count2 > (n/2))
+        return candidate;
+    else
+        return -1;
+}

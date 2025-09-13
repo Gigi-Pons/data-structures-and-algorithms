@@ -1,0 +1,85 @@
+#include <iostream>
+#include <vector>
+#include <fstream>
+
+//binarySearch
+
+using namespace std;
+
+int binarySearch(vector<int>& nums, int target, bool first);
+
+int main()
+{
+    ifstream file;
+    vector<int> nums;
+    int inputString;
+    file.open("example.txt");
+    while(file>>inputString)
+    {
+        nums.push_back(inputString);
+    }
+    file.close();
+
+    for(int i=0; i<nums.size(); i++)
+    {
+        cout << nums.at(i) << " ";
+    }
+    int result2;
+
+    int result = binarySearch(nums, 45, true);
+    cout << "\nResult: " << result;
+    if(result == -1)
+        cout << "\n Not found...";
+    else
+        result2 = binarySearch(nums, 45, false);
+
+    cout << "\n Results: " << result << " " << result2;
+    
+
+    return 0;
+}
+
+//Function will accept a value from user.  Then it will check when the first
+//and last appearance of this value happens within the array.
+
+int binarySearch(vector<int>& nums, int target, bool first)
+{
+    //variables
+    int start = 0;
+    int end = nums.size()-1;    
+    //int mid = start + ((end - start)/2);
+    int ans = -1; //In case it is not found (-1)
+
+    //while loop will iterate until start > end
+    while(start<=end)
+    {
+        int mid = start + ((end - start)/2);
+        //check if target value.  If so, check if you need first or last index
+        if(nums[mid] == target)
+        {   
+            ans = mid;
+            cout << "\n***";
+            if(first)
+            {
+                end = mid - 1;
+            }
+            else
+            {
+                start = mid + 1;
+            }
+        }
+        //check if mid is less than value
+        else if (nums[mid] < target)
+        {
+            start = mid + 1;
+        }
+        
+        //check if mid is greater than target
+        else 
+        {
+            end = mid - 1;
+        }
+
+    }
+    return ans;
+}
