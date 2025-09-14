@@ -1,4 +1,4 @@
-# Search Algorithms
+# Sorting Algorithms
 
 ## Linear Search Folder
 ### findValue
